@@ -1,0 +1,73 @@
+<section style="margin-top:5%"> 
+<form #form="ngForm">
+    <div class ='form-group'>
+        <input id="icon_prefix" type="text" class="form-control" name="movie" 
+        #film="ngModel" [(ngModel)]="this.Moviesearch" 
+        (keyup.enter)="searchMovie()" placeholder="Buscar Película">                
+    </div>
+</form>
+
+
+<div *ngIf="undefined !== movies && movies.length > 0  else search">
+<div class="card-columns">
+<div class="row" style="margin: 5%; width:45rem">
+<div class="container py-3">
+    <div class="col-md-6 mb-4">
+    <div class="card" *ngFor='let movie of movies'>
+        <div  class="card-body">
+        <div class="card-image">
+              <img src="http://image.tmdb.org/t/p/w342/{{movie.poster}}">
+        </div>
+    <a (click)="edit(movie)" (click)="now(movie.title)">
+        <span class="card-title" *ngIf="movie!==Movieedit">{{movie.title}}</span>
+        <input *ngIf="movie==Movieedit" [(ngModel)]="movie.title" (blur)="updateMovie()" (keyup.enter)="updateMovie()">
+        <div class="card-content" class="card bg-success">
+            <p *ngIf="movie!==Movieedit">{{movie.synopsis}}</p>  
+            <textarea class="form-control" rows="15" *ngIf="movie==Movieedit" [(ngModel)]="movie.synopsis" (blur)="updateMovie()" (keyup.enter)="updateMovie()"> </textarea>
+        </div>
+        
+        <div class="card-action">
+            <p class="text-muted" *ngIf="movie!==Movieedit">{{movie.release_date}}</p>
+            <input *ngIf="movie==Movieedit" [(ngModel)]="movie.release_date" (blur)="updateMovie()" (keyup.enter)="updateMovie()"> 
+        </div>
+    </a>
+        </div>
+        <button *ngIf="auth.isAuthenticated()" class="btn btn-danger" title="delete" (click)="deleteMovie(movie)">Borrar</button>
+    </div>
+    </div>
+</div>
+</div>
+</div> 
+</div>
+
+
+<ng-template #search>
+    <div class="card-columns">
+<div class="row" style="margin: 5%; width:45rem">
+    <div class="container py-3">
+    
+    <div class="col-md-6 mb-4">
+    <div class="card" *ngFor='let movie of smovies'>
+        <div  class="card-body">
+        <div class="card-image">
+              <img src="http://image.tmdb.org/t/p/w342/{{movie.poster}}">
+        </div>
+        <span class="card-title">{{movie.title}}</span>
+        <div class="card-content" class="card bg-success">
+            <p>{{movie.synopsis}}</p>   
+        </div>
+        
+        <div class="card-action">
+            <p>{{movie.release_date}}</p>
+        </div>
+        </div>
+        <button *ngIf="auth.isAuthenticated()" class="btn btn-primary" title="add" (click)="addMovie(movie)"> Agregar</button>
+        
+    </div>
+    </div>
+    </div>
+    </div>
+</div>
+</ng-template>
+
+</section>

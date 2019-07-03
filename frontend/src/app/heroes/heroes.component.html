@@ -1,0 +1,166 @@
+<section style="margin-top:5%"> 
+<form #form="ngForm">
+    <div class ='form-group'>
+        <input id="icon_prefix" type="text" class="form-control" name="heroe" 
+        #hero="ngModel" [(ngModel)]="this.heroeSearch" 
+        (keyup.enter)="searchHeroe()" placeholder="Buscar heroe por película">                
+    </div>
+</form>
+<script>
+    function myFunction() {
+      var txt;
+      var r = confirm("Press a button!");
+      if (r == true) {
+        txt = "You pressed OK!";
+      } else {
+        txt = "You pressed Cancel!";
+      }
+      document.getElementById("demo").innerHTML = txt;
+    }
+    </script> 
+
+
+<button class="btn btn-link" (click)="toggle(view)"> Agregar</button>
+<form #form2="ngForm">
+<div class="container">
+    <div class="d-none" #view >
+      <div class="col-sm-4">
+     
+        <div class="form-group">
+          <label for="name"> Nombre:</label>
+          <input type="text" class="form-control" id="name" [(ngModel)]="this.nombre" name="nombre" required>
+        </div>
+        <div class="form-group">
+            <label for="bio"> Biografía:</label>
+            <textarea class="form-control" rows="5" id="bio" [(ngModel)]="this.bio" name="bio"></textarea>
+          </div>
+          <div class="form-group">
+              <label for="ap"> Aparición:</label>
+              <input type="text" class="form-control" id="ap" [(ngModel)]="this.ap" name="ap">
+            </div>
+            <div class="form-group">
+                <label for="pelis"> Películas:</label>
+                <input type="text" class="form-control" id="pelis" [(ngModel)]="this.pelis" name="pelis">
+              </div>   
+              <div class="form-group">
+                  <label for="img">Imagen Heroe:</label>
+                  <select class="form-control" id="img" [(ngModel)]="this.img" name="img">
+                    <option value="assets/img/batman.png">Batman</option>
+                    <option value="assets/img/aquaman.png">Aquaman</option>
+                    <option value="assets/img/robin.png">Robin</option>
+                    <option value="assets/img/superman.png">Superman</option>
+                    <option value="assets/img/supergirl.png">Supergirl</option>
+                    <option value="assets/img/batwoman.png">Batwoman</option>
+                    <option value="assets/img/wonder-woman.png">Mujer Maravilla</option>
+                    <option value="assets/img/daredevil.png">Daredevil</option>
+                    <option value="assets/img/hulk.png">Hulk</option>
+                    <option value="assets/img/wolverine.png">Wolverine</option>
+                    <option value="assets/img/iron-man.png">Iron Man</option>
+                    <option value="assets/img/captain-america.png">Capitan América</option>
+                    <option value="assets/img/black-canary.png">Canario Negro</option>
+                    <option value="assets/img/black-widow.png">Viuda Negra</option>
+                    <option value="assets/img/phoenix.png">Phoenix</option>
+                    <option value="assets/img/green-lantern.png">Linterna Verde</option>
+                    <option value="assets/img/starfire.png">Starfire</option>
+                    <option value="assets/img/invisible-woman.png">Mujer Invisible</option>
+                    <option value="assets/img/cyclops.png">Cíclope</option>
+                    <option value="assets/img/ms-marvel.png">Capitana Marvel</option>
+                    <option value="assets/img/captain-marvel.png">Capitán Marvel</option>
+                    <option value="assets/img/sr-fantastic.png">Sr. Fantástico</option>
+                    <option value="assets/img/flash.png">Flash</option>
+                    <option value="assets/img/green-arrow.png">Flecha Verde</option>
+                    <option value="assets/img/spiderman.png">Spider Man</option>
+                    <option value="assets/img/she-hulk.png">She-Hulk</option>
+                  </select>
+                </div>   
+              <button class="btn-sm" title="add" (click)="add()"> Agregar</button> 
+      </div>
+</div>
+</div>      
+</form>
+
+
+<div *ngIf="undefined !== heroes && heroes.length > 0  else search">
+<div class="row" style="margin: 5%">
+  <div class="card animated fadeIn fast col-sm-4" *ngFor="let heroe of heroes">
+     
+    <img [src]="heroe.ruta" class="card-img-top img-fluid">
+    
+    <div class="card-block">
+      <a (click)="edit(heroe)" (click)="now(heroe.nombre)">
+      <h4 *ngIf="heroe!==heroeEdit" class="card-title">{{heroe.nombre}}</h4>
+      <input *ngIf="heroe==heroeEdit" [(ngModel)]="heroe.nombre" (blur)="updateHeroe()" (keyup.enter)="updateHeroe()">
+      <p *ngIf="heroe!==heroeEdit" class="card-text">
+        {{heroe.bio}}
+      </p>
+      <textarea class="form-control" rows="15" *ngIf="heroe==heroeEdit" [(ngModel)]="heroe.bio" (blur)="updateHeroe()" (keyup.enter)="updateHeroe()"></textarea>
+      <p class="card-text">
+        <small *ngIf="heroe!==heroeEdit" class="class-muted">{{heroe.aparicion }}</small>
+        <input *ngIf="heroe==heroeEdit" [(ngModel)]="heroe.aparicion" (blur)="updateHeroe()" (keyup.enter)="updateHeroe()">
+      </p>
+    </a>
+      <div class="container">
+          <div class="d-none" #ver >
+              <a (click)="edit(heroe)" (click)="now(heroe.nombre)">
+              <span *ngIf="heroe!==heroeEdit">Películas: {{heroe.peliculas}} </span>
+              <input *ngIf="heroe==heroeEdit" [(ngModel)]="heroe.peliculas" (blur)="updateHeroe()" (keyup.enter)="updateHeroe()">
+              </a>
+              <div>
+              
+              <button class="btn-sm" title="delete" (click)="delete(heroe)"> Borrar</button>
+            </div>
+          </div>
+      <button type="button" class="btn btn-outline-primary btn-block" (click)="toggle(ver)">
+          Ver
+      </button>
+     </div>
+  
+</div>
+    </div>  
+  </div>
+</div>
+
+
+<ng-template #search>
+    <div class="row" style="margin: 5%">
+        <div class="card animated fadeIn fast col-sm-4" *ngFor="let heroe of heroes">
+           
+          <img [src]="heroe.ruta" class="card-img-top img-fluid">
+          
+          <div class="card-block">
+            <a (click)="edit(heroe)" (click)="now(heroe.nombre)">
+            <h4 *ngIf="heroe!==heroeEdit" class="card-title">{{heroe.nombre}}</h4>
+            <input *ngIf="heroe==heroeEdit" [(ngModel)]="heroe.nombre" (blur)="updateHeroe()" (keyup.enter)="updateHeroe()">
+            <p *ngIf="heroe!==heroeEdit" class="card-text">
+              {{heroe.bio}}
+            </p>
+            <textarea class="form-control" rows="15" *ngIf="heroe==heroeEdit" [(ngModel)]="heroe.bio" (blur)="updateHeroe()" (keyup.enter)="updateHeroe()"></textarea>
+            <p class="card-text">
+              <small *ngIf="heroe!==heroeEdit" class="class-muted">{{heroe.aparicion }}</small>
+              <input *ngIf="heroe==heroeEdit" [(ngModel)]="heroe.aparicion" (blur)="updateHeroe()" (keyup.enter)="updateHeroe()">
+            </p>
+          </a>
+            <div class="container">
+                <div class="d-none" #ver >
+                    <a (click)="edit(heroe)" (click)="now(heroe.nombre)">
+                    <span *ngIf="heroe!==heroeEdit">Películas: {{heroe.peliculas}} </span>
+                    <input *ngIf="heroe==heroeEdit" [(ngModel)]="heroe.peliculas" (blur)="updateHeroe()" (keyup.enter)="updateHeroe()">
+                    </a>
+                    <div>
+                    
+                  <button class="btn btn-secondary" title="delete" (click)="delete(heroe)"> Borrar</button>
+                  </div>
+                </div>
+            <button type="button" class="btn btn-outline-primary btn-block" (click)="toggle(ver)">
+                Ver
+            </button>
+           </div>
+        
+      </div>
+          </div>  
+        </div>
+
+
+</ng-template>
+
+</section>
